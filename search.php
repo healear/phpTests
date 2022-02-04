@@ -15,28 +15,22 @@ function read_dir($dir)
     return $files;
 }
 
-function DFS($dir, ?int &$count)
+function DFS($dir, int &$count)
 {
-    echo "Entry point: ".$dir."\n";
-    if (NULL === $count)
-        $count = 0;
     $files = read_dir($dir);
     foreach ($files as $fname=>$ftype)
     {
-        echo "Elem: ".$fname."\n";
-        echo "Type: ".$ftype."\n\n";
         if ($ftype == "dir")
             {
                 DFS($dir.$fname."/", $count);
             }
         else
-            if ($fname == "test")
+            if ($fname == "count")
             {
                 $values = file($dir.$fname);
                 if (!empty($values))
                     foreach ($values as $value)
                     {
-                        echo "Value: ".$value."\n";
                         $count+=$value;
                     }
             }
@@ -45,5 +39,4 @@ function DFS($dir, ?int &$count)
 }
 
 $count = 0;
-$files = read_dir("conts/contsinclude/");
 echo DFS("conts/", $count);
